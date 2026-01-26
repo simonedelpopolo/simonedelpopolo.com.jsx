@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Centralized repository paths.
+: "${SIMONEDELPOPOLO_ROOT_DIR:=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+: "${SIMONEDELPOPOLO_SCRIPTS_DIR:="$SIMONEDELPOPOLO_ROOT_DIR/scripts"}"
+: "${SIMONEDELPOPOLO_LOGGING_LIB_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/lib/logging.sh"}"
+
+# Configurable TLD for links (e.g., .host, .com)
+: "${SIMONEDELPOPOLO_TLD:=.host}"
+
+# Default vhost pipeline (static site)
+: "${SIMONEDELPOPOLO_DEFAULT_SOURCE_DIR:="$SIMONEDELPOPOLO_ROOT_DIR/src"}" # source directory
+: "${SIMONEDELPOPOLO_DEFAULT_BUILD_DIR:="$SIMONEDELPOPOLO_ROOT_DIR/build/src"}" # build directory
+: "${SIMONEDELPOPOLO_DEFAULT_PUBLIC_DIR:="$SIMONEDELPOPOLO_ROOT_DIR/public/_default"}" # public output
+# Default vhost scripts
+: "${SIMONEDELPOPOLO_DEFAULT_ALL_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/_default/all.sh"}" # pipeline orchestrator
+: "${SIMONEDELPOPOLO_DEFAULT_BUILD_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/_default/build.sh"}"
+: "${SIMONEDELPOPOLO_DEFAULT_CLEAN_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/_default/clean.sh"}"
+
+# ESLint scripts
+: "${SIMONEDELPOPOLO_ESLINT_LINT_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/eslint/lint.sh"}"
+: "${SIMONEDELPOPOLO_ESLINT_LINT_FIX_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/eslint/lint-fix.sh"}"
+
+# Certificate management
+: "${SIMONEDELPOPOLO_CERTS_DIR:="$SIMONEDELPOPOLO_ROOT_DIR/certs"}"
+: "${SIMONEDELPOPOLO_CERTS_CA_DIR:="$SIMONEDELPOPOLO_CERTS_DIR/ca"}"
+# Data storage
+: "${SIMONEDELPOPOLO_DATA_DIR:="$SIMONEDELPOPOLO_ROOT_DIR/data"}"
+# Certificate scripts
+: "${SIMONEDELPOPOLO_CERT_ISSUER_SCRIPT:="$SIMONEDELPOPOLO_SCRIPTS_DIR/certificates/issuer.sh"}"

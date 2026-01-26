@@ -1,0 +1,128 @@
+/* TableOfContents Component */
+.toc {
+  position: sticky;
+  top: 5rem;
+  width: 240px;
+  height: fit-content;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+}
+
+.toc__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem;
+  font-family: var(--font-share-tech);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.toc__toggle:hover {
+  color: var(--link-hover);
+  border-color: var(--link-hover);
+}
+
+.toc__nav {
+  display: block;
+}
+
+.toc__title {
+  margin-bottom: 1rem;
+  font-family: var(--font-syncopate);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.toc__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.toc__item {
+  list-style: none;
+}
+
+.toc__link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-share-tech);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-left: 2px solid var(--border-subtle);
+  transition: color 0.2s ease, border-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.toc__link:hover {
+  color: var(--link-hover);
+  border-left-color: var(--link-hover);
+  padding-left: 1rem;
+}
+
+.toc__item--active .toc__link {
+  color: var(--link-active);
+  border-left-color: var(--link-active);
+  padding-left: 1rem;
+  font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+  .toc {
+    position: relative;
+    top: 0;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .toc__toggle {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .toc__toggle::before {
+    content: 'Contents';
+  }
+
+  .toc__nav {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+  }
+
+  .toc__nav--open {
+    display: block;
+  }
+}
+
+/* Scrollbar styling */
+.toc::-webkit-scrollbar {
+  width: 4px;
+}
+
+.toc::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.toc::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 2px;
+}
+
+.toc::-webkit-scrollbar-thumb:hover {
+  background: var(--link-hover);
+}

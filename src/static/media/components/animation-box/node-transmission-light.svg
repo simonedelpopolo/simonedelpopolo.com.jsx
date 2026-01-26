@@ -1,0 +1,118 @@
+<svg width="520" height="320" viewBox="0 0 520 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    NodeTransmission Light Theme
+    ViewBox: 520 x 320
+    Golden: x = 199, 321 | y = 122, 198
+    Thirds: x = 173, 347 | y = 107, 213
+    Colors: magenta, purple, orange, red (light theme)
+  -->
+
+  <style>
+    /* Flow animation - dashed lines moving */
+    @keyframes flow {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -56; }
+    }
+
+    /* Pulse animation - nodes breathing */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.85; }
+    }
+
+    /* Glow animation - subtle glow pulse */
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 4px currentColor); }
+      50% { filter: drop-shadow(0 0 10px currentColor); }
+    }
+
+    /* Red pulse - slower, dramatic */
+    @keyframes redPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .path { animation: flow 2.4s linear infinite; }
+    .path--secondary { animation-delay: -0.8s; }
+    .path--pulse { animation-delay: -1.2s; }
+    .path--tertiary { animation-delay: -1.6s; }
+    .path--red { animation: flow 3s linear infinite, redPulse 2s ease-in-out infinite; }
+
+    .node {
+      animation: pulse 2s ease-in-out infinite, glow 2s ease-in-out infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+    .node--secondary { animation-delay: -1s; }
+    .node--accent { animation-delay: -0.5s; }
+    .node--center {
+      animation: pulse 2s ease-in-out infinite, glow 2.5s ease-in-out infinite;
+    }
+    .node--red {
+      animation: pulse 2.5s ease-in-out infinite, glow 2.5s ease-in-out infinite;
+      animation-delay: -0.3s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .path, .node { animation: none; }
+    }
+  </style>
+
+  <!-- Background gradient (light) -->
+  <defs>
+    <radialGradient id="lightGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f0f0f5" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#f0f0f5" stop-opacity="0.5"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="520" height="320" fill="url(#lightGlow)"/>
+
+  <!-- Frame -->
+  <rect x="16" y="16" width="488" height="288" rx="12" fill="none" stroke="#ff00ff" stroke-opacity="0.3" stroke-width="1.5"/>
+
+  <!-- Primary signal path - smooth curve (golden diagonal flow) -->
+  <path class="path" d="M52 268 Q112 240 173 213 T260 160 T347 107 T468 52" fill="none" stroke="#ff00ff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 6"/>
+
+  <!-- Secondary path - smooth curve (rule of thirds Z-flow) -->
+  <path class="path path--secondary" d="M80 90 Q140 144 199 198 Q260 160 321 122 Q380 176 440 230" fill="none" stroke="#a855f7" stroke-opacity="0.9" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6"/>
+
+  <!-- Red accent path - dramatic curve through center -->
+  <path class="path path--red" d="M40 160 Q150 80 260 160 Q370 240 480 160" fill="none" stroke="#ff3366" stroke-opacity="0.8" stroke-width="2" stroke-linecap="round" stroke-dasharray="10 8"/>
+
+  <!-- Cross-links - smooth curves (connecting networks) -->
+  <path class="path path--pulse" d="M173 213 Q186 205 199 198" fill="none" stroke="#ff6600" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="8 6"/>
+  <path class="path path--pulse" d="M260 160 Q290 141 321 122" fill="none" stroke="#ff6600" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="8 6"/>
+  <path class="path path--pulse" d="M347 107 Q334 114 321 122" fill="none" stroke="#ff6600" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="8 6"/>
+
+  <!-- Tertiary dashed links - smooth curves -->
+  <path class="path path--tertiary" d="M80 90 Q126 151 173 213" fill="none" stroke="#ff6600" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="4 6"/>
+  <path class="path path--tertiary" d="M347 107 Q393 168 440 230" fill="none" stroke="#ff6600" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- Red accent cross-links -->
+  <path class="path path--red" d="M130 160 Q195 120 260 160" fill="none" stroke="#ff3366" stroke-opacity="0.6" stroke-width="1" stroke-dasharray="4 6"/>
+  <path class="path path--red" d="M260 160 Q325 200 390 160" fill="none" stroke="#ff3366" stroke-opacity="0.6" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- Primary nodes (golden intersections) -->
+  <circle class="node" cx="52" cy="268" r="7" fill="#ff00ff"/>
+  <circle class="node" cx="173" cy="213" r="7" fill="#ff00ff"/>
+  <circle class="node node--center" cx="260" cy="160" r="9" fill="#ff00ff"/>
+  <circle class="node" cx="347" cy="107" r="7" fill="#ff00ff"/>
+  <circle class="node" cx="468" cy="52" r="7" fill="#ff00ff"/>
+
+  <!-- Secondary nodes (rule of thirds) -->
+  <circle class="node node--secondary" cx="80" cy="90" r="5" fill="#a855f7"/>
+  <circle class="node node--secondary" cx="199" cy="198" r="6" fill="#a855f7"/>
+  <circle class="node node--secondary" cx="321" cy="122" r="6" fill="#a855f7"/>
+  <circle class="node node--secondary" cx="440" cy="230" r="5" fill="#a855f7"/>
+
+  <!-- Red accent nodes (on the red path) -->
+  <circle class="node node--red" cx="40" cy="160" r="5" fill="#ff3366"/>
+  <circle class="node node--red" cx="130" cy="120" r="4" fill="#ff3366" fill-opacity="0.9"/>
+  <circle class="node node--red" cx="390" cy="200" r="4" fill="#ff3366" fill-opacity="0.9"/>
+  <circle class="node node--red" cx="480" cy="160" r="5" fill="#ff3366"/>
+
+  <!-- Accent micro-nodes -->
+  <circle class="node node--accent" cx="130" cy="240" r="3" fill="#ff6600" fill-opacity="0.8"/>
+  <circle class="node node--accent" cx="390" cy="80" r="3" fill="#ff6600" fill-opacity="0.8"/>
+  <circle class="node node--accent" cx="290" cy="140" r="2.5" fill="#ff6600" fill-opacity="0.7"/>
+</svg>

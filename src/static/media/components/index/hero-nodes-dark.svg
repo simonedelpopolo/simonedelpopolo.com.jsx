@@ -1,0 +1,36 @@
+<svg width="520" height="420" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Frame at golden inset -->
+  <rect x="20" y="20" width="480" height="380" rx="16" stroke="#00FFFF" stroke-opacity="0.18" stroke-width="1.5"/>
+
+  <!-- Primary signal path (golden spiral flow) -->
+  <path d="M56 340 L173 280 L260 210 L347 140 L464 80" stroke="#00FFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Secondary path (rule of thirds intersections) -->
+  <path d="M90 130 L199 260 L321 160 L430 290" stroke="#00FF88" stroke-width="2" stroke-opacity="0.75" stroke-linecap="round"/>
+
+  <!-- Tertiary cross-links (connecting golden to thirds) -->
+  <path d="M173 280 L199 260" stroke="#A855F7" stroke-width="1.5" stroke-opacity="0.5"/>
+  <path d="M260 210 L321 160" stroke="#A855F7" stroke-width="1.5" stroke-opacity="0.5"/>
+  <path d="M347 140 L321 160" stroke="#A855F7" stroke-width="1.5" stroke-opacity="0.5"/>
+  <path d="M260 210 L199 260" stroke="#A855F7" stroke-width="1.5" stroke-opacity="0.5"/>
+  <path d="M90 130 L173 280" stroke="#A855F7" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="6 4"/>
+  <path d="M347 140 L430 290" stroke="#A855F7" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="6 4"/>
+
+  <!-- Primary nodes (golden intersections + anchors) -->
+  <circle cx="56" cy="340" r="7" fill="#00FFFF"/>
+  <circle cx="173" cy="280" r="7" fill="#00FFFF"/>
+  <circle cx="260" cy="210" r="9" fill="#00FFFF"/> <!-- Visual center - larger -->
+  <circle cx="347" cy="140" r="7" fill="#00FFFF"/>
+  <circle cx="464" cy="80" r="7" fill="#00FFFF"/>
+
+  <!-- Secondary nodes (rule of thirds) -->
+  <circle cx="90" cy="130" r="5" fill="#00FF88"/>
+  <circle cx="199" cy="260" r="6" fill="#00FF88"/>
+  <circle cx="321" cy="160" r="6" fill="#00FF88"/>
+  <circle cx="430" cy="290" r="5" fill="#00FF88"/>
+
+  <!-- Accent micro-nodes (visual rhythm) -->
+  <circle cx="140" cy="320" r="3" fill="#A855F7" fill-opacity="0.7"/>
+  <circle cx="380" cy="100" r="3" fill="#A855F7" fill-opacity="0.7"/>
+  <circle cx="290" cy="185" r="2.5" fill="#A855F7" fill-opacity="0.6"/>
+</svg>

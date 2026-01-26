@@ -1,0 +1,24 @@
+:root {
+  /* Neon Palette */
+  --neon-pink: #ff00ff; /* magenta/fuchsia - bright electric pink */
+  --neon-cyan: #00ffff; /* aqua - bright electric blue-green */
+  --neon-purple: #a855f7; /* violet - medium purple with blue tint */
+  --neon-violet-dark: #6d28d9; /* dark violet - high contrast purple */
+  --neon-orange: #ff6600; /* safety orange - vivid red-orange */
+  --neon-green: #00ff88; /* spring green - bright mint/seafoam */
+  --neon-green-dark: #047857; /* dark green - high contrast emerald */
+  --neon-red: #ff3366; /* coral red - pinkish red, warm */
+
+  /* Background tones */
+  --void-black: #0a0a0f; /* near-black with slight blue undertone */
+  --void-deep: #050508; /* darker near-black, almost pure black */
+  --void-light: #12121a; /* lighter void, subtle purple-blue undertone */
+  --grid-line: rgba(255, 0, 255, 0.12); /* faint magenta, 12% opacity */
+  --horizon-glow: rgba(255, 102, 0, 0.4); /* orange glow, 40% opacity */
+
+  /* Text */
+  --text-primary: #e0e0f0; /* off-white with lavender tint */
+  --text-dim: rgba(224, 224, 240, 0.5); /* lavender-white, 50% opacity */
+}
+
+

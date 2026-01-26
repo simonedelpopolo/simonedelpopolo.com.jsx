@@ -1,0 +1,87 @@
+/* Sonar Pointer - visible on AnimationBox active or hero art hover */
+/* Only enabled on devices with fine pointer (mouse/trackpad) */
+
+.sonar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--neon-red);
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 2500;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  box-shadow:
+    0 0 10px rgba(255, 51, 102, 0.85),
+    0 0 20px rgba(255, 51, 102, 0.55);
+}
+
+.sonar::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 2px solid rgba(255, 51, 102, 0.45);
+  border-radius: 999px;
+  animation: sonar-pulse 1.4s ease-out infinite;
+}
+
+@keyframes sonar-pulse {
+  0% {
+    transform: scale(0.35);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.4);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/*
+ * Sonar pointer only for devices with:
+ * - hover capability (not touch-only)
+ * - fine pointer (mouse/trackpad, not finger)
+ */
+@media (hover: hover) and (pointer: fine) {
+  /* Hide system cursor when sonar is active */
+  body.animation-box--active,
+  body.animation-box--active *,
+  body.hero-art-hover,
+  body.hero-art-hover * {
+    cursor: none !important;
+  }
+
+  /* Show sonar pointer */
+  body.animation-box--active .sonar,
+  body.hero-art-hover .sonar {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Touch devices (coarse pointer, no hover) - keep system cursor, hide sonar */
+@media (hover: none), (pointer: coarse) {
+  .sonar {
+    display: none;
+  }
+
+  body.animation-box--active,
+  body.animation-box--active *,
+  body.hero-art-hover,
+  body.hero-art-hover * {
+    cursor: auto !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sonar::after {
+    animation: none;
+  }
+}

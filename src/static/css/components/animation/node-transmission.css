@@ -1,0 +1,36 @@
+/* NodeTransmission - Animated SVG node network */
+.node-transmission {
+  width: 100%;
+  position: relative;
+}
+
+.node-transmission__img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Dark theme (default) - show dark, hide light */
+.node-transmission__img--light {
+  display: none;
+}
+
+/* Light theme - show light, hide dark */
+[data-theme="light"] .node-transmission__img--dark {
+  display: none;
+}
+
+[data-theme="light"] .node-transmission__img--light {
+  display: block;
+}
+
+/* System preference fallback */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .node-transmission__img--dark {
+    display: none;
+  }
+
+  :root:not([data-theme]) .node-transmission__img--light {
+    display: block;
+  }
+}

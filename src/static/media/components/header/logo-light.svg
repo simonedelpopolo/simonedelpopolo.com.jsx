@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="ring-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff00ff"/>
+      <stop offset="60%" stop-color="#ff4dff"/>
+      <stop offset="100%" stop-color="#ff00ff"/>
+    </linearGradient>
+    <filter id="glow-light" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="0.9" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="24" cy="24" r="18" fill="none" stroke="url(#ring-light)" stroke-width="2.5" filter="url(#glow-light)"/>
+  <circle cx="24" cy="24" r="12" fill="none" stroke="url(#ring-light)" stroke-width="1" stroke-dasharray="3 5" opacity="0.8" filter="url(#glow-light)"/>
+  <circle cx="24" cy="7.5" r="2" fill="#ff00ff" filter="url(#glow-light)"/>
+  <circle cx="39.5" cy="24" r="1.6" fill="#ff00ff" filter="url(#glow-light)"/>
+  <circle cx="10" cy="36.5" r="1.4" fill="#ff00ff" filter="url(#glow-light)"/>
+  <rect x="22.5" y="4" width="3" height="6" rx="1.5" fill="url(#ring-light)" filter="url(#glow-light)"/>
+  <rect x="36.5" y="12" width="6" height="3" rx="1.5" fill="url(#glow-light)"/>
+  <rect x="6" y="28.5" width="6" height="3" rx="1.5" fill="url(#glow-light)" filter="url(#glow-light)"/>
+</svg>
