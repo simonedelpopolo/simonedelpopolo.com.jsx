@@ -97,17 +97,20 @@ print_step "Creating directories"
 mkdir -p "$SIMONEDELPOPOLO_DEFAULT_BUILD_DIR" "$SIMONEDELPOPOLO_DEFAULT_PUBLIC_DIR"
 
 print_step "Bundling application"
-print_substep "Output: ${SIMONEDELPOPOLO_DEFAULT_BUILD_DIR}/app.js"
+print_substep "Output: ${SIMONEDELPOPOLO_DEFAULT_BUILD_DIR} (with code splitting)"
 
 npx esbuild "$SIMONEDELPOPOLO_DEFAULT_SOURCE_DIR/app.tsx" \
   --bundle \
   --format=esm \
   --platform=browser \
+  --target=es2020 \
   --jsx=transform \
   --jsx-factory=h \
   --jsx-fragment=Fragment \
   --define:__SIMONEDELPOPOLO_TLD__="\"${SIMONEDELPOPOLO_TLD}\"" \
-  --outfile="$SIMONEDELPOPOLO_DEFAULT_BUILD_DIR/app.js"
+  --outdir="$SIMONEDELPOPOLO_DEFAULT_BUILD_DIR" \
+  --splitting \
+  --entry-names=[name]
 print_success "Bundle created"
 
 print_step "Copying static assets"
@@ -123,5 +126,8 @@ if [[ -d "$SIMONEDELPOPOLO_DEFAULT_BUILD_DIR" ]]; then
   print_substep "deployed"
 fi
 
+# print_step "Bundling CSS"
+# "$SCRIPT_DIR/bundle-css.sh"
+# print_success "CSS bundle created"
 
 print_success "Default vhost build complete -> ${SIMONEDELPOPOLO_DEFAULT_PUBLIC_DIR}"
