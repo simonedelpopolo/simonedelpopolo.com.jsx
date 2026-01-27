@@ -42,7 +42,7 @@ export const TableOfContents = ( props: TableOfContentsProps ) => {
       <nav class="toc__nav">
         <h2 class="toc__title">On this page</h2>
         <ul class="toc__list">
-          {props.sections.map( ( section ) => (
+          {props.sections.map( section => (
             <li class="toc__item">
               <a href={`#${section.id}`} class="toc__link">
                 {section.title}

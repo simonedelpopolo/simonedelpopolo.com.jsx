@@ -22,11 +22,11 @@ export const ContentGrid = ( props: ContentGridProps ) => {
 
   return (
     <div class="content-grid">
-      {props.sections.map( ( section ) => (
+      {props.sections.map( section => (
         <section id={section.id} class="content-grid__section">
           <h2 class="content-grid__category">{section.title}</h2>
           <div class="content-grid__items">
-            {section.items.map( ( item ) => (
+            {section.items.map( item => (
               <article class="content-grid__card">
                 <h3 class="content-grid__card-title">
                   <a href={item.link} class="content-grid__card-link">

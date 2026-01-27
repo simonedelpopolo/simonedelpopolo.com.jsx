@@ -1,14 +1,18 @@
 import { css } from '@nutsloop/neonjsx';
 
+import { initTheme } from '../scripts/theme-toggler';
 import { LanguageSelector } from './LanguageSelector';
 import { SearchBox } from './SearchBox';
-import { initTheme } from '../scripts/theme-toggler';
 
 declare const __SIMONEDELPOPOLO_TLD__: string;
 
 export const Header = () => {
 
   const _tld = typeof __SIMONEDELPOPOLO_TLD__ !== 'undefined' ? __SIMONEDELPOPOLO_TLD__ : '.host';
+
+  /* detect current page */
+  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+  const isContactPage = currentPath === '/contact.html' || currentPath === '/contact';
 
   /* fonts */
   css( './css/fonts/orbitron.css' );
@@ -72,7 +76,12 @@ export const Header = () => {
         >
           ◐
         </button>
-        <a href={`contact.html`} class="header__cta">
+        <a
+          href={isContactPage ? undefined : `contact.html`}
+          class={`header__cta${isContactPage ? ' header__cta--disabled' : ''}`}
+          aria-disabled={isContactPage ? 'true' : undefined}
+          onClick={isContactPage ? ( e: MouseEvent ) => e.preventDefault() : undefined}
+        >
           Contact
         </a>
         <button

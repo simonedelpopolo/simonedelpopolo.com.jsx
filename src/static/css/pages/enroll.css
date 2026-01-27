@@ -1,0 +1,203 @@
+/* Enroll Page */
+.enroll {
+  min-height: 70vh;
+  padding: 4rem 1.5rem 5rem;
+  background:
+    radial-gradient(600px 240px at 15% 10%, rgba(0, 255, 255, 0.12), transparent 60%),
+    radial-gradient(500px 220px at 85% 20%, rgba(255, 0, 255, 0.1), transparent 60%),
+    linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
+}
+
+.enroll__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(420px, 2fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Info Column */
+.enroll__info {
+  position: sticky;
+  top: 2rem;
+  border: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2.5rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.enroll__info::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border-accent);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.enroll__title {
+  margin: 0 0 1rem;
+  font-family: var(--font-orbitron);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--link-hover);
+  text-shadow: 0 0 12px var(--link-dash);
+}
+
+.enroll__intro {
+  margin: 0 0 2rem;
+  font-family: var(--font-share-tech);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.enroll__benefits {
+  margin-bottom: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.enroll__benefits-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-share-tech);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-tertiary);
+}
+
+.enroll__benefits-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.enroll__benefit {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.enroll__benefit-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--link-hover);
+  border: 1px solid var(--link-hover);
+  border-radius: 50%;
+}
+
+.enroll__benefit-text {
+  font-family: var(--font-share-tech);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.enroll__help {
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.enroll__help-text {
+  margin: 0;
+  font-family: var(--font-share-tech);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.enroll__help-link {
+  color: var(--link-hover);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.enroll__help-link:hover {
+  color: var(--cta-hover-bg);
+  text-decoration: underline;
+}
+
+/* Form Section Container */
+.enroll__form-section {
+  border: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2.5rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.enroll__form-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border-accent);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Light Theme */
+[data-theme="light"] .enroll__info,
+[data-theme="light"] .enroll__form-section {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .enroll__title {
+  color: var(--neon-pink, #ff006e);
+  text-shadow: 0 0 12px rgba(255, 0, 110, 0.3);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .enroll__info,
+  :root:not([data-theme]) .enroll__form-section {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.12);
+  }
+
+  :root:not([data-theme]) .enroll__title {
+    color: var(--neon-pink, #ff006e);
+    text-shadow: 0 0 12px rgba(255, 0, 110, 0.3);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .enroll__container {
+    grid-template-columns: 1fr;
+  }
+
+  .enroll__info {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .enroll {
+    padding: 3rem 1.25rem 4rem;
+  }
+
+  .enroll__info,
+  .enroll__form-section {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .enroll__info,
+  .enroll__form-section {
+    padding: 1.5rem 1rem;
+  }
+}

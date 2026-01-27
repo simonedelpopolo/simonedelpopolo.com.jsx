@@ -144,6 +144,18 @@
   box-shadow: 0 0 12px var(--cta-border);
 }
 
+.header__cta--disabled {
+  filter: grayscale(1);
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+.header__cta--disabled:hover {
+  color: var(--cta-text);
+  background: var(--cta-bg);
+  box-shadow: none;
+}
+
 /* Mobile menu toggle */
 .header__menu-toggle {
   display: none;

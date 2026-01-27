@@ -13,7 +13,7 @@ export const initScrollTracker = () => {
   const tocLinks = document.querySelectorAll( '.toc__link' );
   const sections = document.querySelectorAll( '.content-grid__section' );
 
-  if ( !tocLinks.length || !sections.length ) {
+  if ( ! tocLinks.length || ! sections.length ) {
     return;
   }
 
@@ -23,11 +23,14 @@ export const initScrollTracker = () => {
   const updateActiveLink = ( id: string ) => {
     tocLinks.forEach( ( link ) => {
       const item = link.parentElement;
-      if ( !item ) return;
+      if ( ! item ) {
+        return;
+      }
 
       if ( link.getAttribute( 'href' ) === `#${id}` ) {
         item.classList.add( 'toc__item--active' );
-      } else {
+      }
+      else {
         item.classList.remove( 'toc__item--active' );
       }
     } );
@@ -56,7 +59,7 @@ export const initScrollTracker = () => {
   );
 
   /* observe all sections */
-  sections.forEach( ( section ) => observer.observe( section ) );
+  sections.forEach( section => observer.observe( section ) );
 
   /**
    * Smooth scroll to section on ToC link click
@@ -66,7 +69,9 @@ export const initScrollTracker = () => {
     link.addEventListener( 'click', ( e ) => {
       e.preventDefault();
       const href = link.getAttribute( 'href' );
-      if ( !href ) return;
+      if ( ! href ) {
+        return;
+      }
 
       const targetId = href.replace( '#', '' );
       const target = document.getElementById( targetId );

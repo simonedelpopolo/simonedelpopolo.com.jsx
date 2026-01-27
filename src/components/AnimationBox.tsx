@@ -1,6 +1,9 @@
-import { css, inject, eject } from '@nutsloop/neonjsx';
+import { css, lazyOnDemand, Suspense } from '@nutsloop/neonjsx';
 
 import { Spinner } from './Spinner.js';
+
+/* Lazy load NodeTransmission on demand */
+const NodeTransmission = lazyOnDemand( () => import( './animation/NodeTransmission.js' ) );
 
 export const AnimationBox = () => {
   /* fonts */
@@ -15,27 +18,6 @@ export const AnimationBox = () => {
     if ( body && body.dataset.animationBoxBound !== 'true' ) {
       body.dataset.animationBoxBound = 'true';
 
-      let contentLoaded = false;
-
-      const loadContent = async () => {
-        const contentEl = document.querySelector( '.animation-box__content' );
-        if ( ! contentEl || contentLoaded ) {
-          return;
-        }
-
-        await inject( <Spinner message="Loading animation..." />, contentEl as HTMLElement, { mode: 'replace' } );
-
-        try {
-          const { default: NodeTransmission } = await import( './animation/NodeTransmission.js' );
-          await inject( <NodeTransmission />, contentEl as HTMLElement, { mode: 'replace' } );
-          contentLoaded = true;
-        }
-        catch ( err ) {
-          contentEl.innerHTML = '<div class="animation-box__error">Failed to load animation</div>';
-          console.error( 'Failed to load NodeTransmission:', err );
-        }
-      };
-
       const open = () => {
         const overlay = document.getElementById( 'animation-box' );
         if ( ! overlay ) {
@@ -44,10 +26,12 @@ export const AnimationBox = () => {
         overlay.classList.add( 'animation-box--visible' );
         overlay.setAttribute( 'aria-hidden', 'false' );
         body.classList.add( 'animation-box--active' );
-        loadContent();
+
+        /* Trigger lazy load */
+        NodeTransmission.__load();
       };
 
-      const close = async () => {
+      const close = () => {
         const overlay = document.getElementById( 'animation-box' );
         if ( ! overlay ) {
           return;
@@ -55,12 +39,6 @@ export const AnimationBox = () => {
         overlay.classList.remove( 'animation-box--visible' );
         overlay.setAttribute( 'aria-hidden', 'true' );
         body.classList.remove( 'animation-box--active' );
-
-        const contentEl = document.querySelector( '.animation-box__content' );
-        if ( contentEl ) {
-          await eject( contentEl as HTMLElement );
-          contentLoaded = false;
-        }
       };
 
       document.addEventListener( 'click', ( e: MouseEvent ) => {
@@ -95,7 +73,11 @@ export const AnimationBox = () => {
         <button class="animation-box__close" type="button" data-animation-close="true" aria-label="Close animation">
           ✕
         </button>
-        <div class="animation-box__content"></div>
+        <div class="animation-box__content">
+          <Suspense fallback={<Spinner message="Loading animation..." />}>
+            <NodeTransmission />
+          </Suspense>
+        </div>
       </div>
     </div>
   );

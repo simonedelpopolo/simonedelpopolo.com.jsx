@@ -49,7 +49,7 @@ export const Hero = () => {
             sharp typography, and human-centered motion.
           </p>
           <div class="hero__actions">
-            <a class="hero__cta hero__cta--primary" href={`contact.html`}>
+            <a class="hero__cta hero__cta--primary" href={`enroll.html`}>
               Start a project
             </a>
             <a class="hero__cta hero__cta--ghost" href={`projects.html`}>

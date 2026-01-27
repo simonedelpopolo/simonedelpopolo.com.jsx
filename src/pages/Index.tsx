@@ -1,4 +1,4 @@
-import { css } from '@nutsloop/neonjsx';
+import { css, lazyOnDemand, lazyOnHover, Suspense } from '@nutsloop/neonjsx';
 
 import { AnimationBox } from '../components/AnimationBox';
 import { BackToTop } from '../components/BackToTop';
@@ -9,6 +9,9 @@ import { Hero } from '../components/index/Hero';
 import { TableOfContents } from '../components/index/TableOfContents';
 import { Sonar } from '../components/pointer/Sonar';
 import { initScrollTracker } from '../scripts/scroll-tracker';
+
+/* Lazy load Sonar on demand */
+//const Sonar = lazyOnDemand( () => import( '../components/pointer/Sonar' ) );
 
 /* Content sections data */
 const contentSections = [
@@ -148,6 +151,21 @@ export const Index = () => {
       initScrollTracker();
     }, 100 );
   }
+
+  /* preload Sonar on hover using hover props */
+  // if ( typeof document !== 'undefined' ) {
+  //   setTimeout( () => {
+  //     const layout = document.querySelector( '.hero__art-frame' );
+  //     if ( layout ) {
+  //       // Apply hover props manually for more control
+  //       layout.addEventListener( 'mouseenter', () => {
+  //         console.trace( layout.id );
+  //         Sonar.__load().then();
+  //       }, { once:true } );
+  //     }
+  //   }, 100 );
+  // }
+  lazyOnHover( <Sonar /> );
 
   return (
     <>

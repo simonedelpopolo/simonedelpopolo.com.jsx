@@ -1,0 +1,194 @@
+/* Main Container */
+.contact {
+  min-height: 70vh;
+  padding: 4rem 1.5rem 5rem;
+  background:
+    radial-gradient(600px 240px at 15% 10%, rgba(0, 255, 255, 0.12), transparent 60%),
+    radial-gradient(500px 220px at 85% 20%, rgba(255, 0, 255, 0.1), transparent 60%),
+    linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
+}
+
+.contact__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.5fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Contact Info Column */
+.contact__info {
+  position: sticky;
+  top: 2rem;
+  border: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2.5rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact__info::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border-accent);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.contact__title {
+  margin: 0 0 1rem;
+  font-family: var(--font-orbitron);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--link-hover);
+  text-shadow: 0 0 12px var(--link-dash);
+}
+
+.contact__intro {
+  margin: 0 0 2rem;
+  font-family: var(--font-share-tech);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.contact__details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contact__detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact__detail-title {
+  margin: 0;
+  font-family: var(--font-share-tech);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-tertiary);
+}
+
+.contact__email {
+  font-family: 'Intel One Mono', var(--font-share-tech);
+  font-size: 0.95rem;
+  color: var(--link-hover);
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.contact__email:hover {
+  color: var(--cta-hover-bg);
+  text-shadow: 0 0 8px var(--link-dash);
+}
+
+.contact__social-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact__social-link {
+  font-family: var(--font-share-tech);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.2s ease;
+}
+
+.contact__social-link:hover {
+  color: var(--link-hover);
+}
+
+.contact__availability {
+  margin: 0;
+  font-family: var(--font-share-tech);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Form Section Container */
+.contact__form-section {
+  border: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2.5rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact__form-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border-accent);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Light Theme */
+[data-theme="light"] .contact__info,
+[data-theme="light"] .contact__form-section {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .contact__title {
+  color: var(--neon-pink, #ff006e);
+  text-shadow: 0 0 12px rgba(255, 0, 110, 0.3);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .contact__info,
+  :root:not([data-theme]) .contact__form-section {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.12);
+  }
+
+  :root:not([data-theme]) .contact__title {
+    color: var(--neon-pink, #ff006e);
+    text-shadow: 0 0 12px rgba(255, 0, 110, 0.3);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .contact__container {
+    grid-template-columns: 1fr;
+  }
+
+  .contact__info {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 3rem 1.25rem 4rem;
+  }
+
+  .contact__info,
+  .contact__form-section {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact__info,
+  .contact__form-section {
+    padding: 1.5rem 1rem;
+  }
+}
