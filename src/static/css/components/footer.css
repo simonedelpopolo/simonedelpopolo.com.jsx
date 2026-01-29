@@ -137,6 +137,12 @@
   color: var(--text-dim);
 }
 
+.footer__credit-phrase {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .footer__legal-link {
   font-size: 0.75rem;
 }

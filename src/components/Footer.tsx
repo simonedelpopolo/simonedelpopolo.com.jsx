@@ -1,6 +1,7 @@
 import { css } from '@nutsloop/neonjsx';
 
 import { Heart } from './Heart';
+import { OrnamentalDiamond } from './OrnamentalDiamond';
 
 declare const __SIMONEDELPOPOLO_TLD__: string;
 
@@ -72,9 +73,21 @@ export const Footer = () => {
           </div>
           <div class="footer__credit">
             <span>Made with <Heart /> and </span>
-            <a class="footer__link" href={`https://github.com/nutsloop/neonjsx.js#readme`} target="_blank" rel="noopener">
-              NeonJSX
-            </a>
+            <span class="footer__credit-phrase">
+              <a class="footer__link" href={`https://github.com/nutsloop/neonjsx.js#readme`} target="_blank" rel="noopener">
+                NeonJSX
+              </a>
+              <OrnamentalDiamond />
+              <span>riding</span>
+              <a
+                class="footer__link"
+                href={`https://neonsignal.nutsloop${tld}/book/part1-philosophy/index.html`}
+                target="_blank"
+                rel="noopener"
+              >
+                neonsignal
+              </a>
+            </span>
           </div>
         </div>
       </div>

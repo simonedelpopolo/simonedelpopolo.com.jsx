@@ -1,21 +1,23 @@
 {
   "name": "simonedelpopolo.com-website",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "private": true,
   "scripts": {
     "clean:_default": "bash scripts/_default/clean.sh",
     "build:_default": "bash scripts/_default/build.sh",
     "all:_default": "bash scripts/_default/all.sh",
+    "ts-check": "bash scripts/typescript/tsc.sh --check-ts",
+    "watch:_default": "bash scripts/typescript/tsc.sh --watch",
     "lint": "bash scripts/eslint/lint.sh",
     "lint-fix": "bash scripts/eslint/lint-fix.sh"
   },
   "dependencies": {
-    "@nutsloop/neonjsx": "^1.5.0"
+    "@nutsloop/neonjsx": "^1.5.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.53.1",
-    "@typescript-eslint/parser": "^8.53.1",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "esbuild": "^0.27.2",
     "eslint": "^9.39.2",
     "eslint-plugin-perfectionist": "^5.4.0",

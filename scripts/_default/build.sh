@@ -101,6 +101,7 @@ print_substep "Output: ${SIMONEDELPOPOLO_DEFAULT_BUILD_DIR} (with code splitting
 
 npx esbuild "$SIMONEDELPOPOLO_DEFAULT_SOURCE_DIR/app.tsx" \
   --bundle \
+  --minify \
   --format=esm \
   --platform=browser \
   --target=es2020 \

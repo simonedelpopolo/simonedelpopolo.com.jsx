@@ -7,7 +7,7 @@ import { Header } from '../components/Header';
 declare const __SIMONEDELPOPOLO_TLD__: string;
 
 export const Enroll = () => {
-  const tld = typeof __SIMONEDELPOPOLO_TLD__ !== 'undefined' ? __SIMONEDELPOPOLO_TLD__ : '.host';
+  const _tld = typeof __SIMONEDELPOPOLO_TLD__ !== 'undefined' ? __SIMONEDELPOPOLO_TLD__ : '.host';
 
   /* fonts */
   css( './css/fonts/orbitron.css' );

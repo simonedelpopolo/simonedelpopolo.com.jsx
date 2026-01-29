@@ -1,13 +1,11 @@
-import { css, lazyOnDemand, lazyOnHover, Suspense } from '@nutsloop/neonjsx';
+import { css } from '@nutsloop/neonjsx';
 
-import { AnimationBox } from '../components/AnimationBox';
 import { BackToTop } from '../components/BackToTop';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { ContentGrid } from '../components/index/ContentGrid';
 import { Hero } from '../components/index/Hero';
 import { TableOfContents } from '../components/index/TableOfContents';
-import { Sonar } from '../components/pointer/Sonar';
 import { initScrollTracker } from '../scripts/scroll-tracker';
 
 /* Lazy load Sonar on demand */
@@ -165,8 +163,6 @@ export const Index = () => {
   //     }
   //   }, 100 );
   // }
-  lazyOnHover( <Sonar /> );
-
   return (
     <>
       <Hero />
@@ -179,8 +175,6 @@ export const Index = () => {
       </div>
       <Footer />
       <BackToTop />
-      <AnimationBox />
-      <Sonar />
     </>
   );
 };
