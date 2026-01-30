@@ -21,7 +21,10 @@ export const Enroll = () => {
   css( './css/pages/enroll.css' );
 
   if ( typeof document !== 'undefined' ) {
-    setTimeout( () => initMailAuthNotice(), 0 );
+    setTimeout( () => initMailAuthNotice( {
+      cookieName: 'sdp-mail-auth',
+      ttlMs: 300000
+    } ), 0 );
   }
 
   return (
