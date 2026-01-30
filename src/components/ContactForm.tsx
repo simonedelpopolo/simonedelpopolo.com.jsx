@@ -50,15 +50,6 @@ function sanitizeInput( value: string ): string {
 /**
  * Escape for database safety
  */
-function escapeForDatabase( value: string ): string {
-  return value
-    .replace( /\\/g, '\\\\' )
-    .replace( /'/g, '\\\'' )
-    .replace( /"/g, '\\"' )
-    .replace( /\n/g, '\\n' )
-    .replace( /\r/g, '\\r' )
-    .replace( /\t/g, '\\t' );
-}
 
 /**
  * Validate field
@@ -154,7 +145,7 @@ function prepareFormData( form: HTMLFormElement ): Record<string, string> {
   for ( const [ key, value ] of formData.entries() ) {
     if ( typeof value === 'string' ) {
       const cleaned = sanitizeInput( value );
-      sanitized[ key ] = escapeForDatabase( cleaned );
+      sanitized[ key ] = cleaned;
     }
   }
 
@@ -169,6 +160,10 @@ function initFormBehavior( containerSelector: string ): void {
   if ( ! form ) {
     return;
   }
+  if ( form.dataset.bound === 'true' ) {
+    return;
+  }
+  form.dataset.bound = 'true';
 
   /* Real-time validation on blur */
   const fields = form.querySelectorAll( '.contact__input, .contact__textarea' );
@@ -202,6 +197,10 @@ function initFormBehavior( containerSelector: string ): void {
 
     /* Prepare secure form data */
     const _sanitizedData = prepareFormData( form );
+    const payload = {
+      ..._sanitizedData,
+      form: 'contact.html',
+    };
 
     /* Get container for spinner injection */
     const container = document.querySelector( containerSelector ) as HTMLElement | null;
@@ -215,67 +214,61 @@ function initFormBehavior( containerSelector: string ): void {
     /* Inject spinner */
     await inject( <Spinner message="Sending your message..." />, container );
 
-    /* Simulate API call with setTimeout (2 seconds) */
-    setTimeout( async () => {
-      try {
-        /* In production, uncomment this and remove setTimeout:
-        const response = await fetch( '/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify( _sanitizedData ),
-        } );
+    try {
+      const response = await fetch( '/api/mail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify( payload ),
+      } );
 
-        if ( ! response.ok ) {
-          throw new Error( 'Submission failed' );
-        }
-        */
-
-        /* Success - eject spinner, inject success message */
-        await eject( container );
-        await inject(
-          <div class="contact__success">
-            <div class="contact__success-icon">✓</div>
-            <h3 class="contact__success-title">Message Sent!</h3>
-            <p class="contact__success-message">
-              Thank you for reaching out. I'll get back to you within 24-48 hours.
-            </p>
-          </div>,
-          container
-        );
-
-        /* After 3 seconds, replace with fresh form */
-        setTimeout( async () => {
-          await eject( container );
-          await inject( <ContactForm />, container );
-          initFormBehavior( containerSelector );
-        }, 3000 );
-
+      if ( ! response.ok ) {
+        throw new Error( 'Submission failed' );
       }
-      catch ( _error ) {
-        /* Error - eject spinner, inject error message */
+
+      /* Success - eject spinner, inject success message */
+      await eject( container );
+      await inject(
+        <div class="contact__success">
+          <div class="contact__success-icon">✓</div>
+          <h3 class="contact__success-title">Message Sent!</h3>
+          <p class="contact__success-message">
+            Thank you for reaching out. I'll get back to you within 24-48 hours.
+          </p>
+        </div>,
+        container
+      );
+
+      /* After 3 seconds, replace with fresh form */
+      setTimeout( async () => {
         await eject( container );
-        await inject(
-          <div class="contact__error-state">
-            <div class="contact__error-icon">✗</div>
-            <h3 class="contact__error-title">Submission Failed</h3>
-            <p class="contact__error-text">
-              Something went wrong. Please try again or email directly.
-            </p>
-            <button
-              class="contact__retry-button"
-              onClick={async () => {
-                await eject( container );
-                await inject( <ContactForm />, container );
-                initFormBehavior( containerSelector );
-              }}
-            >
-              Try Again
-            </button>
-          </div>,
-          container
-        );
-      }
-    }, 2000 ); /* Fake 2-second delay */
+        await inject( <ContactForm />, container );
+      }, 3000 );
+
+    }
+    catch ( _error ) {
+      /* Error - eject spinner, inject error message */
+      await eject( container );
+      await inject(
+        <div class="contact__error-state">
+          <div class="contact__error-icon">✗</div>
+          <h3 class="contact__error-title">Submission Failed</h3>
+          <p class="contact__error-text">
+            Something went wrong. Please try again or email directly.
+          </p>
+          <button
+            class="contact__retry-button"
+            onClick={async () => {
+              await eject( container );
+              await inject( <ContactForm />, container );
+            }}
+          >
+            Try Again
+          </button>
+        </div>,
+        container
+      );
+    }
   } );
 }
 
@@ -290,7 +283,7 @@ export const ContactForm = () => {
   }
 
   return (
-    <form class="contact__form" action="/api/contact" method="POST">
+    <form class="contact__form" action="/api/mail" method="POST">
       <div class="contact__field">
         <label for="name" class="contact__label">Name</label>
         <input

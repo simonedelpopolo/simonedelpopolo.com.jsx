@@ -1,5 +1,6 @@
 import { css } from '@nutsloop/neonjsx';
 
+import { buildEnrollmentMessage } from '../scripts/form-mail';
 import {
   clearFieldError,
   showFieldSuccess,
@@ -271,6 +272,10 @@ function initFormBehavior( containerSelector: string ): void {
   if ( ! form ) {
     return;
   }
+  if ( form.dataset.bound === 'true' ) {
+    return;
+  }
+  form.dataset.bound = 'true';
 
   /* Real-time validation on blur */
   const fields = form.querySelectorAll( '.enroll__input, .enroll__textarea, .enroll__select' );
@@ -299,16 +304,27 @@ function initFormBehavior( containerSelector: string ): void {
 
     /* Prepare secure form data */
     const sanitizedData = prepareFormData( form );
+    const fullName = [ sanitizedData.name, sanitizedData.lastName ]
+      .filter( Boolean )
+      .join( ' ' )
+      .trim();
+    const payload = {
+      name: fullName || sanitizedData.name || '',
+      email: sanitizedData.email || '',
+      subject: 'Enrollment request',
+      message: buildEnrollmentMessage( sanitizedData ),
+      form: 'enroll.html',
+    };
 
     /* Submit with feedback */
     await submitFormWithFeedback( {
-      _endpoint: '/api/enroll',
-      _data: sanitizedData,
+      _endpoint: '/api/mail',
+      _data: payload,
       containerSelector,
       FormComponent: EnrollForm,
       successMessage: {
-        title: 'Enrollment Successful!',
-        body: 'Your account has been created. Check your email to verify your account.',
+        title: 'Enrollment Request Sent!',
+        body: 'Thanks for reaching out. We will review your request and follow up soon.',
       },
       errorMessage: {
         title: 'Enrollment Failed',
@@ -329,7 +345,7 @@ export const EnrollForm = () => {
   }
 
   return (
-    <form class="enroll__form" action="/api/enroll" method="POST">
+    <form class="enroll__form" action="/api/mail" method="POST">
 
       <div class="enroll__field-group">
         {/* Name */}

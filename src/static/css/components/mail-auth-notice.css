@@ -1,0 +1,79 @@
+.mail-auth-notice {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(255, 135, 0, 0.92), rgba(255, 72, 0, 0.92));
+  box-shadow: 0 0 22px rgba(255, 120, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 210, 140, 0.6);
+}
+
+.mail-auth-notice__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: #1f0d00;
+  font-family: var(--font-share-tech);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mail-auth-notice__title {
+  font-family: var(--font-orbitron);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1f0d00;
+}
+
+.mail-auth-notice__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: #2b1200;
+}
+
+.mail-auth-notice__label {
+  font-weight: 600;
+}
+
+.mail-auth-notice__countdown {
+  font-family: var(--font-intel-one-mono);
+  font-size: 0.85rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.15);
+  color: #120800;
+}
+
+.mail-auth-notice__divider {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.mail-auth-notice__code {
+  font-family: var(--font-intel-one-mono);
+  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+}
+
+.mail-auth-notice__token {
+  font-family: var(--font-intel-one-mono);
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 640px) {
+  .mail-auth-notice__inner {
+    padding: 0.6rem 1rem;
+  }
+  .mail-auth-notice__body {
+    font-size: 0.65rem;
+  }
+}

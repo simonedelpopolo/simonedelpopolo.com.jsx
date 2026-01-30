@@ -245,7 +245,7 @@ export function prepareFormData( form: HTMLFormElement ): Record<string, string>
   for ( const [ key, value ] of formData.entries() ) {
     if ( typeof value === 'string' ) {
       const cleaned = sanitizeInput( value );
-      sanitized[ key ] = escapeForDatabase( cleaned );
+      sanitized[ key ] = cleaned;
     }
   }
 

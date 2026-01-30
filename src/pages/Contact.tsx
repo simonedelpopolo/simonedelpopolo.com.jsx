@@ -3,6 +3,7 @@ import { css } from '@nutsloop/neonjsx';
 import { ContactForm } from '../components/ContactForm';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
+import { initMailAuthNotice } from '../scripts/mail-auth-notice';
 
 export const Contact = () => {
   /* fonts */
@@ -11,8 +12,13 @@ export const Contact = () => {
   css( './css/fonts/intel-one-mono.css' );
   /* theme */
   css( './css/theme.css' );
+  css( './css/components/mail-auth-notice.css' );
   /* component styles */
   css( './css/pages/contact.css' );
+
+  if ( typeof document !== 'undefined' ) {
+    setTimeout( () => initMailAuthNotice(), 0 );
+  }
 
   return (
     <>

@@ -47,7 +47,7 @@ export async function submitFormWithFeedback( options: SubmissionOptions ): Prom
     },
     onSuccess,
     onError,
-    simulateDelay = 2000,
+    simulateDelay = 0,
   } = options;
 
   const container = document.querySelector( containerSelector ) as HTMLElement | null;
@@ -61,67 +61,70 @@ export async function submitFormWithFeedback( options: SubmissionOptions ): Prom
   /* Inject spinner */
   await inject( <Spinner message="Processing your request..." />, container );
 
-  /* Simulate API call with setTimeout */
-  setTimeout( async () => {
-    try {
-      /* In production, uncomment this and remove setTimeout:
-      const response = await fetch( endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( data ),
-      } );
+  try {
+    const start = performance.now();
+    const response = await fetch( _endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify( _data ),
+    } );
 
-      if ( ! response.ok ) {
-        throw new Error( 'Submission failed' );
-      }
-      */
-
-      /* Success - eject spinner, inject success message */
-      await eject( container );
-      await inject(
-        <div class="form__success">
-          <div class="form__success-icon">✓</div>
-          <h3 class="form__success-title">{successMessage.title}</h3>
-          <p class="form__success-message">{successMessage.body}</p>
-        </div>,
-        container
-      );
-
-      if ( onSuccess ) {
-        onSuccess();
-      }
-
-      /* After 3 seconds, replace with fresh form */
-      setTimeout( async () => {
-        await eject( container );
-        await inject( <FormComponent />, container );
-      }, 3000 );
-
+    if ( ! response.ok ) {
+      throw new Error( 'Submission failed' );
     }
-    catch ( error ) {
-      /* Error - eject spinner, inject error message */
-      await eject( container );
-      await inject(
-        <div class="form__error-state">
-          <div class="form__error-icon">✗</div>
-          <h3 class="form__error-title">{errorMessage.title}</h3>
-          <p class="form__error-text">{errorMessage.body}</p>
-          <button
-            class="form__retry-button"
-            onClick={async () => {
-              await eject( container );
-              await inject( <FormComponent />, container );
-            }}
-          >
-            Try Again
-          </button>
-        </div>,
-        container
-      );
 
-      if ( onError ) {
-        onError( error as Error );
+    if ( simulateDelay > 0 ) {
+      const elapsed = performance.now() - start;
+      if ( elapsed < simulateDelay ) {
+        await new Promise( resolve => setTimeout( resolve, simulateDelay - elapsed ) );
       }
     }
-  }, simulateDelay );
+
+    /* Success - eject spinner, inject success message */
+    await eject( container );
+    await inject(
+      <div class="form__success">
+        <div class="form__success-icon">✓</div>
+        <h3 class="form__success-title">{successMessage.title}</h3>
+        <p class="form__success-message">{successMessage.body}</p>
+      </div>,
+      container
+    );
+
+    if ( onSuccess ) {
+      onSuccess();
+    }
+
+    /* After 3 seconds, replace with fresh form */
+    setTimeout( async () => {
+      await eject( container );
+      await inject( <FormComponent />, container );
+    }, 3000 );
+  }
+  catch ( error ) {
+    /* Error - eject spinner, inject error message */
+    await eject( container );
+    await inject(
+      <div class="form__error-state">
+        <div class="form__error-icon">✗</div>
+        <h3 class="form__error-title">{errorMessage.title}</h3>
+        <p class="form__error-text">{errorMessage.body}</p>
+        <button
+          class="form__retry-button"
+          onClick={async () => {
+            await eject( container );
+            await inject( <FormComponent />, container );
+          }}
+        >
+          Try Again
+        </button>
+      </div>,
+      container
+    );
+
+    if ( onError ) {
+      onError( error as Error );
+    }
+  }
 }
