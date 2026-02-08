@@ -56,12 +56,16 @@
 }
 
 .contact__input--error,
-.contact__textarea--error {
+.contact__textarea--error,
+.form__input--error,
+.contact__input.form__input--error,
+.contact__textarea.form__input--error {
   border-color: #ff3860 !important;
   box-shadow: 0 0 8px rgba(255, 56, 96, 0.4) !important;
 }
 
-.contact__error-message {
+.contact__error-message,
+.form__error-message {
   display: block;
   margin-top: 0.25rem;
   font-family: var(--font-share-tech);
@@ -99,7 +103,8 @@
 }
 
 /* Success State */
-.contact__success {
+.contact__success,
+.form__success {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,7 +114,8 @@
   min-height: 300px;
 }
 
-.contact__success-icon {
+.contact__success-icon,
+.form__success-icon {
   width: 80px;
   height: 80px;
   margin-bottom: 1.5rem;
@@ -136,7 +142,8 @@
   }
 }
 
-.contact__success-title {
+.contact__success-title,
+.form__success-title {
   margin: 0 0 1rem;
   font-family: var(--font-orbitron);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
@@ -144,7 +151,8 @@
   text-shadow: 0 0 12px var(--link-dash);
 }
 
-.contact__success-message {
+.contact__success-message,
+.form__success-message {
   margin: 0;
   font-family: var(--font-share-tech);
   font-size: 0.9rem;
@@ -154,7 +162,8 @@
 }
 
 /* Error State */
-.contact__error-state {
+.contact__error-state,
+.form__error-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -164,7 +173,8 @@
   min-height: 300px;
 }
 
-.contact__error-icon {
+.contact__error-icon,
+.form__error-icon {
   width: 80px;
   height: 80px;
   margin-bottom: 1.5rem;
@@ -189,7 +199,8 @@
   }
 }
 
-.contact__error-title {
+.contact__error-title,
+.form__error-title {
   margin: 0 0 1rem;
   font-family: var(--font-orbitron);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
@@ -197,7 +208,8 @@
   text-shadow: 0 0 12px rgba(255, 56, 96, 0.4);
 }
 
-.contact__error-text {
+.contact__error-text,
+.form__error-text {
   margin: 0 0 2rem;
   font-family: var(--font-share-tech);
   font-size: 0.9rem;
@@ -206,7 +218,8 @@
   max-width: 400px;
 }
 
-.contact__retry-button {
+.contact__retry-button,
+.form__retry-button {
   padding: 0.75rem 1.5rem;
   font-family: var(--font-share-tech);
   font-size: 0.85rem;
@@ -220,7 +233,9 @@
 }
 
 .contact__retry-button:hover,
-.contact__retry-button:focus-visible {
+.contact__retry-button:focus-visible,
+.form__retry-button:hover,
+.form__retry-button:focus-visible {
   color: var(--cta-hover-text);
   background: var(--cta-hover-bg);
   border-color: var(--cta-hover-bg);
@@ -235,13 +250,17 @@
   }
 
   .contact__success,
-  .contact__error-state {
+  .contact__error-state,
+  .form__success,
+  .form__error-state {
     padding: 2rem 1rem;
     min-height: 250px;
   }
 
   .contact__success-icon,
-  .contact__error-icon {
+  .contact__error-icon,
+  .form__success-icon,
+  .form__error-icon {
     width: 60px;
     height: 60px;
     font-size: 2rem;

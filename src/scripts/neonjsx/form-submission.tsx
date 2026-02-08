@@ -26,6 +26,64 @@ export interface SubmissionOptions {
   onSuccess?: () => void;
   onError?: ( error: Error ) => void;
   simulateDelay?: number;
+  beforeSubmit?: () => Promise<{ ok: boolean; message?: string }> | { ok: boolean; message?: string };
+}
+
+async function readErrorMessage( response: Response ): Promise<string> {
+  let bodyText = '';
+  try {
+    bodyText = await response.text();
+  }
+  catch {
+    return `Request failed (${response.status})`;
+  }
+
+  if ( ! bodyText ) {
+    return `Request failed (${response.status})`;
+  }
+
+  try {
+    const parsed = JSON.parse( bodyText ) as Record<string, unknown>;
+    const error = typeof parsed.error === 'string' ? parsed.error : null;
+    const message = typeof parsed.message === 'string' ? parsed.message : null;
+    if ( error ) {
+      return error;
+    }
+    if ( message ) {
+      return message;
+    }
+  }
+  catch {
+    // Keep plain text as-is.
+  }
+
+  return bodyText;
+}
+
+async function injectErrorState(
+  container: HTMLElement,
+  title: string,
+  body: string,
+  FormComponent: any,
+): Promise<void> {
+  await eject( container );
+  await inject(
+    <div class="form__error-state">
+      <div class="form__error-icon">✗</div>
+      <h3 class="form__error-title">{title}</h3>
+      <p class="form__error-text">{body}</p>
+      <button
+        class="form__retry-button"
+        onClick={async () => {
+          await eject( container );
+          await inject( <FormComponent />, container );
+        }}
+      >
+        Try Again
+      </button>
+    </div>,
+    container
+  );
 }
 
 /**
@@ -48,11 +106,25 @@ export async function submitFormWithFeedback( options: SubmissionOptions ): Prom
     onSuccess,
     onError,
     simulateDelay = 0,
+    beforeSubmit,
   } = options;
 
   const container = document.querySelector( containerSelector ) as HTMLElement | null;
   if ( ! container ) {
     return;
+  }
+
+  if ( beforeSubmit ) {
+    const beforeSubmitResult = await beforeSubmit();
+    if ( ! beforeSubmitResult.ok ) {
+      const message = beforeSubmitResult.message || errorMessage.body;
+      await injectErrorState( container, errorMessage.title, message, FormComponent );
+      if ( onError ) {
+        onError( new Error( message ) );
+      }
+
+      return;
+    }
   }
 
   /* Eject current form */
@@ -71,7 +143,7 @@ export async function submitFormWithFeedback( options: SubmissionOptions ): Prom
     } );
 
     if ( ! response.ok ) {
-      throw new Error( 'Submission failed' );
+      throw new Error( await readErrorMessage( response ) );
     }
 
     if ( simulateDelay > 0 ) {
@@ -103,25 +175,13 @@ export async function submitFormWithFeedback( options: SubmissionOptions ): Prom
     }, 3000 );
   }
   catch ( error ) {
+    const errorBody =
+      error instanceof Error && error.message
+        ? error.message
+        : errorMessage.body;
+
     /* Error - eject spinner, inject error message */
-    await eject( container );
-    await inject(
-      <div class="form__error-state">
-        <div class="form__error-icon">✗</div>
-        <h3 class="form__error-title">{errorMessage.title}</h3>
-        <p class="form__error-text">{errorMessage.body}</p>
-        <button
-          class="form__retry-button"
-          onClick={async () => {
-            await eject( container );
-            await inject( <FormComponent />, container );
-          }}
-        >
-          Try Again
-        </button>
-      </div>,
-      container
-    );
+    await injectErrorState( container, errorMessage.title, errorBody, FormComponent );
 
     if ( onError ) {
       onError( error as Error );

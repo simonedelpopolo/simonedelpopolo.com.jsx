@@ -3,7 +3,7 @@ import { css } from '@nutsloop/neonjsx';
 import { ContactForm } from '../components/ContactForm';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import { initMailAuthNotice } from '../scripts/mail-auth-notice';
+import { MailAuthNotice } from '../components/MailAuthNotice';
 
 export const Contact = () => {
   /* fonts */
@@ -12,19 +12,12 @@ export const Contact = () => {
   css( './css/fonts/intel-one-mono.css' );
   /* theme */
   css( './css/theme.css' );
-  css( './css/components/mail-auth-notice.css' );
   /* component styles */
   css( './css/pages/contact.css' );
 
-  if ( typeof document !== 'undefined' ) {
-    setTimeout( () => initMailAuthNotice( {
-      cookieName: 'sdp-mail-auth',
-      ttlMs: 300000
-    } ), 0 );
-  }
-
   return (
     <>
+      <MailAuthNotice />
       <Header />
       <main class="contact">
         <div class="contact__container">

@@ -3,7 +3,7 @@ import { css } from '@nutsloop/neonjsx';
 import { EnrollForm } from '../components/EnrollForm';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import { initMailAuthNotice } from '../scripts/mail-auth-notice';
+import { MailAuthNotice } from '../components/MailAuthNotice';
 
 declare const __SIMONEDELPOPOLO_TLD__: string;
 
@@ -16,19 +16,12 @@ export const Enroll = () => {
   css( './css/fonts/intel-one-mono.css' );
   /* theme */
   css( './css/theme.css' );
-  css( './css/components/mail-auth-notice.css' );
   /* component styles */
   css( './css/pages/enroll.css' );
 
-  if ( typeof document !== 'undefined' ) {
-    setTimeout( () => initMailAuthNotice( {
-      cookieName: 'sdp-mail-auth',
-      ttlMs: 300000
-    } ), 0 );
-  }
-
   return (
     <>
+      <MailAuthNotice />
       <Header />
       <main class="enroll">
         <div class="enroll__container">
