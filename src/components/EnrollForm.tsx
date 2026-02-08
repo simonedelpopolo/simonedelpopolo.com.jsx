@@ -1,10 +1,13 @@
 import { css } from '@nutsloop/neonjsx';
 
-import { buildEnrollmentMessage } from '../scripts/form-mail';
+import {
+  buildEnrollPayload,
+  ENROLL_MAIL_ENDPOINT,
+  ensureMailAuthWindow,
+} from '../scripts/form-mail';
 import {
   clearFieldError,
   showFieldSuccess,
-  prepareFormData,
   showFieldError,
   validateEmail,
   validateField,
@@ -302,23 +305,11 @@ function initFormBehavior( containerSelector: string ): void {
       return;
     }
 
-    /* Prepare secure form data */
-    const sanitizedData = prepareFormData( form );
-    const fullName = [ sanitizedData.name, sanitizedData.lastName ]
-      .filter( Boolean )
-      .join( ' ' )
-      .trim();
-    const payload = {
-      name: fullName || sanitizedData.name || '',
-      email: sanitizedData.email || '',
-      subject: 'Enrollment request',
-      message: buildEnrollmentMessage( sanitizedData ),
-      form: 'enroll.html',
-    };
+    const payload = buildEnrollPayload( form );
 
     /* Submit with feedback */
     await submitFormWithFeedback( {
-      _endpoint: '/api/mail',
+      _endpoint: ENROLL_MAIL_ENDPOINT,
       _data: payload,
       containerSelector,
       FormComponent: EnrollForm,
@@ -329,6 +320,14 @@ function initFormBehavior( containerSelector: string ): void {
       errorMessage: {
         title: 'Enrollment Failed',
         body: 'Something went wrong. Please try again or contact support.',
+      },
+      beforeSubmit: async () => {
+        const ensure = await ensureMailAuthWindow();
+        if ( ensure.ok ) {
+          return { ok: true };
+        }
+
+        return { ok: false, message: ensure.message };
       },
     } );
   } );
@@ -345,7 +344,7 @@ export const EnrollForm = () => {
   }
 
   return (
-    <form class="enroll__form" action="/api/mail" method="POST">
+    <form class="enroll__form" action={ENROLL_MAIL_ENDPOINT} method="POST">
 
       <div class="enroll__field-group">
         {/* Name */}

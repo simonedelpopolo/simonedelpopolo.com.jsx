@@ -3,8 +3,8 @@ import { css } from '@nutsloop/neonjsx';
 import {
   buildContactPayload,
   CONTACT_MAIL_ENDPOINT,
-  ensureContactMailAuthWindow,
-} from '../scripts/contact-mail';
+  ensureMailAuthWindow,
+} from '../scripts/form-mail';
 import {
   clearFieldError,
   sanitizeInput,
@@ -150,7 +150,7 @@ function initFormBehavior( containerSelector: string ): void {
         body: 'Something went wrong. Please try again.',
       },
       beforeSubmit: async () => {
-        const ensure = await ensureContactMailAuthWindow();
+        const ensure = await ensureMailAuthWindow();
         if ( ensure.ok ) {
           return { ok: true };
         }

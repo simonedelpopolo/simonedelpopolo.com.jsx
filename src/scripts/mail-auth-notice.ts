@@ -1,9 +1,9 @@
 import {
-  CONTACT_COOKIE_NAME,
-  CONTACT_COOKIE_TTL_MS,
-  ensureContactMailAuthWindow,
+  ensureMailAuthWindow,
   getAuthWindowExpiry,
-} from './contact-mail';
+  MAIL_COOKIE_NAME,
+  MAIL_COOKIE_TTL_MS,
+} from './form-mail';
 
 type MailAuthNoticeOptions = {
   cookieName?: string;
@@ -31,6 +31,10 @@ function clearCountdownTimer(): void {
 function ensureContainer(): HTMLElement | null {
   const existing = document.querySelector( '.mail-auth-notice' ) as HTMLElement | null;
   if ( existing ) {
+    if ( existing.parentElement === document.body && document.body.firstElementChild !== existing ) {
+      document.body.prepend( existing );
+    }
+
     return existing;
   }
 
@@ -43,13 +47,12 @@ function ensureContainer(): HTMLElement | null {
         <span class="mail-auth-notice__label">Countdown:</span>
         <span class="mail-auth-notice__countdown" data-countdown></span>
         <span class="mail-auth-notice__divider">•</span>
-        <span class="mail-auth-notice__label">Auth code:</span>
-        <span class="mail-auth-notice__code">RECKLESS :D</span>
+        <span class="mail-auth-notice__label">Cookie:</span>
         <span class="mail-auth-notice__token" data-token></span>
       </div>
     </div>
   `;
-  document.body.appendChild( container );
+  document.body.prepend( container );
 
   return container;
 }
@@ -66,10 +69,10 @@ export async function initMailAuthNotice( options: MailAuthNoticeOptions = {} ):
     return;
   }
 
-  const cookieName = options.cookieName ?? CONTACT_COOKIE_NAME;
-  const ttlMs = options.ttlMs ?? CONTACT_COOKIE_TTL_MS;
+  const cookieName = options.cookieName ?? MAIL_COOKIE_NAME;
+  const ttlMs = options.ttlMs ?? MAIL_COOKIE_TTL_MS;
 
-  const ensureResult = await ensureContactMailAuthWindow( undefined, cookieName, ttlMs );
+  const ensureResult = await ensureMailAuthWindow( undefined, cookieName, ttlMs );
   if ( ! ensureResult.ok ) {
     clearCountdownTimer();
     removeContainer();
