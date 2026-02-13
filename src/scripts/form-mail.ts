@@ -9,6 +9,7 @@ export const MAIL_COOKIE_NAME = 'neon-mail';
 export const MAIL_COOKIE_TTL_MS = 15 * 60 * 1000;
 
 const AUTH_WINDOW_STORAGE_PREFIX = 'mail-auth-expiry:';
+const AUTH_WINDOW_CODE_STORAGE_PREFIX = 'mail-auth-code:';
 const ensureAuthInFlight = new Map<string, Promise<EnsureMailAuthWindowResult>>();
 
 export interface ContactPayload {
@@ -44,6 +45,7 @@ export type EnsureMailAuthWindowResult =
     ok: true;
     source: 'cache' | 'network';
     expiresAt: number;
+    authCode: string | null;
   }
   | {
     ok: false;
@@ -121,6 +123,7 @@ function clearAuthWindowExpiry( cookieName: string ): void {
 
   try {
     sessionStorage.removeItem( getAuthWindowStorageKey( cookieName ) );
+    sessionStorage.removeItem( getAuthWindowCodeStorageKey( cookieName ) );
   }
   catch {
     // Ignore storage failures in restricted browser contexts.
@@ -129,6 +132,10 @@ function clearAuthWindowExpiry( cookieName: string ): void {
 
 export function getAuthWindowStorageKey( cookieName: string = MAIL_COOKIE_NAME ): string {
   return `${AUTH_WINDOW_STORAGE_PREFIX}${cookieName}`;
+}
+
+export function getAuthWindowCodeStorageKey( cookieName: string = MAIL_COOKIE_NAME ): string {
+  return `${AUTH_WINDOW_CODE_STORAGE_PREFIX}${cookieName}`;
 }
 
 export function getAuthWindowExpiry( cookieName: string = MAIL_COOKIE_NAME ): number | null {
@@ -164,14 +171,46 @@ export function getAuthWindowExpiry( cookieName: string = MAIL_COOKIE_NAME ): nu
   return parsed;
 }
 
+export function getAuthWindowDisplayCode( cookieName: string = MAIL_COOKIE_NAME ): string | null {
+  if ( typeof sessionStorage === 'undefined' ) {
+    return null;
+  }
+
+  let storedCode: string | null = null;
+  try {
+    storedCode = sessionStorage.getItem( getAuthWindowCodeStorageKey( cookieName ) );
+  }
+  catch {
+    return null;
+  }
+
+  if ( ! storedCode ) {
+    return null;
+  }
+
+  const trimmed = storedCode.trim();
+  if ( trimmed.length === 0 ) {
+    return null;
+  }
+
+  return trimmed;
+}
+
 export function markAuthWindowActive(
   cookieName: string = MAIL_COOKIE_NAME,
   ttlMs: number = MAIL_COOKIE_TTL_MS,
+  authCode: string | null = null,
 ): number {
   const expiresAt = Date.now() + ttlMs;
   if ( typeof sessionStorage !== 'undefined' ) {
     try {
       sessionStorage.setItem( getAuthWindowStorageKey( cookieName ), String( expiresAt ) );
+      if ( authCode && authCode.trim().length > 0 ) {
+        sessionStorage.setItem( getAuthWindowCodeStorageKey( cookieName ), authCode.trim() );
+      }
+      else {
+        sessionStorage.removeItem( getAuthWindowCodeStorageKey( cookieName ) );
+      }
     }
     catch {
       // Ignore storage failures in restricted browser contexts.
@@ -232,6 +271,7 @@ export async function ensureMailAuthWindow(
       ok: true,
       source: 'cache',
       expiresAt: cachedExpiry,
+      authCode: getAuthWindowDisplayCode( cookieName ),
     };
   }
 
@@ -258,10 +298,22 @@ export async function ensureMailAuthWindow(
         };
       }
 
+      let authCode: string | null = null;
+      try {
+        const payload = await response.json() as Record<string, unknown>;
+        if ( typeof payload.authCode === 'string' && payload.authCode.trim().length > 0 ) {
+          authCode = payload.authCode.trim();
+        }
+      }
+      catch {
+        authCode = null;
+      }
+
       return {
         ok: true,
         source: 'network',
-        expiresAt: markAuthWindowActive( cookieName, ttlMs ),
+        expiresAt: markAuthWindowActive( cookieName, ttlMs, authCode ),
+        authCode,
       };
     }
     catch ( error ) {

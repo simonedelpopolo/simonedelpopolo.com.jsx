@@ -1,5 +1,6 @@
 import {
   ensureMailAuthWindow,
+  getAuthWindowDisplayCode,
   getAuthWindowExpiry,
   MAIL_COOKIE_NAME,
   MAIL_COOKIE_TTL_MS,
@@ -87,9 +88,9 @@ export async function initMailAuthNotice( options: MailAuthNoticeOptions = {} ):
 
   const countdownEl = container.querySelector( '[data-countdown]' ) as HTMLElement | null;
   const tokenEl = container.querySelector( '[data-token]' ) as HTMLElement | null;
-
+  const initialCode = ensureResult.authCode || getAuthWindowDisplayCode( cookieName );
   if ( tokenEl ) {
-    tokenEl.textContent = `(${cookieName})`;
+    tokenEl.textContent = initialCode ? `(${initialCode})` : `(${cookieName})`;
   }
 
   const update = () => {
